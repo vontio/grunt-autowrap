@@ -21,7 +21,6 @@ var grunt = require('grunt');
     test.doesNotThrow(block, [error], [message])
     test.ifError(value)
 */
-
 exports.autowrap = {
   setUp: function(done) {
     // setup here if necessary
@@ -52,4 +51,22 @@ exports.autowrap = {
     });
     test.done();
   },
+  testAmd: function(test){
+    test.expect(1);
+    test.doesNotThrow(function(){
+      var requirejs = require('requirejs');
+      requirejs.config({
+        baseUrl:__dirname + '/../tmp/',
+      });
+      requirejs(['testAmd'],function(lib){
+        var c1 = new lib.C1();
+        c1.sayHello();
+        var c2 = new lib.C2();
+        c2.sayHello();
+        var d = new lib.D();
+        test.done();
+      });
+    });
+
+  }
 };

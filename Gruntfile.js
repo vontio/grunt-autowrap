@@ -46,6 +46,15 @@ module.exports = function(grunt) {
           'tmp/testCoffee.js': ['test/fixtures/*.coffee'],
         },
       },
+      testAmd:{
+        options:{
+          wrapType:'amd',
+          ext:'coffee',
+        },
+        files:{
+          'tmp/testAmd.js':'test/fixtures/*.coffee',
+        },
+      },
     },
 
     // Unit tests.

@@ -1,7 +1,7 @@
 {
   "name": "grunt-autowrap",
-  "description": "grunt task plugin auto wrap and exports for js or coffee",
-  "version": "0.2.0",
+  "description": "grunt task plugin auto wrap exports or amd for js or coffee",
+  "version": "0.3.0",
   "homepage": "https://github.com/vontio/grunt-autowrap",
   "author": {
     "name": "Vontio",
@@ -36,7 +36,8 @@
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-nodeunit": "~0.2.0",
     "grunt": "~0.4.0",
-    "nodeunit": "~0.8.0"
+    "nodeunit": "~0.8.0",
+    "requirejs": "~2.1.8"
   },
   "peerDependencies": {
     "grunt": "~0.4.0"

@@ -19,7 +19,7 @@ module.exports = function(grunt) {
       exportsType:'all',//function,var,all(function + var),filename
       ignoreStartsWith_:true,
       join: true,
-      wrap:true,
+      wrapType:'exports',//exports,amd
       coffee:{},
       ext:'js',
       separator: "\n"
@@ -104,8 +104,15 @@ module.exports = function(grunt) {
       }).join(grunt.util.linefeed);
     }
   };
-  var addWrap = function(code){
-    return '(function(exports){' + grunt.util.linefeed + code + grunt.util.linefeed + "})(exports);";
+  var addWrap = function(code,options){
+    if(options.wrapType === 'exports')
+    {
+      return '(function(exports){' + grunt.util.linefeed + code + grunt.util.linefeed + "})(exports);";
+    }else if(options.wrapType === 'amd')
+    {
+      return 'define(function(require, exports, module){' + grunt.util.linefeed + code + grunt.util.linefeed + '});';
+    }
+    return 'unknown options.exportsMethod';
   };
   var autowrap = function(code,options,files){
     if (typeof(files) === 'string')
@@ -158,9 +165,9 @@ module.exports = function(grunt) {
         code = addExport(code,clazzes);
       }
     }
-    if(options.wrap === true)
+    if(options.wrapType !== 'null' && options.wrapType !== null)
     {
-      return addWrap(code);
+      return addWrap(code,options);
     }else
     {
       return code;

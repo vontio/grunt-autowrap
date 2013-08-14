@@ -1,9 +1,44 @@
 # grunt-autowrap
 
-> grunt task plugin auto wrap and exports for js or coffee
+> grunt task plugin auto wrap exports or amd for js or coffee
 
-## usage
-### js example
+## Usage
+
+### config
+
+```js
+grunt.initConfig({
+  autowrap: {
+      testJs:{
+        options: {
+          ext: 'js',
+        },
+        files: {
+          'tmp/testJs.js': ['test/fixtures/A.js', 'test/fixtures/B.js'],
+        },
+      },
+      testCoffee:{
+        options: {
+          ext: 'coffee',
+        },
+        files: {
+          'tmp/testCoffee.js': ['test/fixtures/*.coffee'],
+        },
+      },
+      testAmd:{
+        options:{
+          wrapType:'amd',
+          ext:'coffee',
+        },
+        files:{
+          'tmp/testAmd.js':'test/fixtures/*.coffee',
+        },
+      },
+    },
+})
+```
+
+### testJs target
 
 ```js
 //A.js
@@ -24,6 +59,10 @@ function B()
 {
   //this is B
 }
+```
+
+
+```js
 //output.js
 (function(exports){
 function A1()
@@ -48,7 +87,7 @@ exports.B=B;
 })(exports);
 ```
 
-### coffee example
+### testAmd and coffee
 
 ```coffee
 # C.coffee
@@ -72,7 +111,7 @@ class D
 
 ```js
 // output.js
-(function(exports){
+define(function(require, exports, module){
 var C1, C2, D,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -116,7 +155,7 @@ D = (function() {
 exports.C1=C1;
 exports.C2=C2;
 exports.D=D;
-})(exports);
+});
 ```
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
@@ -157,6 +196,15 @@ grunt.initConfig({
           'tmp/testCoffee.js': ['test/fixtures/*.coffee'],
         },
       },
+      testAmd:{
+        options:{
+          wrapType:'amd',
+          ext:'coffee',
+        },
+        files:{
+          'tmp/testAmd.js':'test/fixtures/*.coffee',
+        },
+      },
     },
 })
 ```
@@ -190,11 +238,13 @@ Default value: `true`
 
 concatenate files before processing.
 
-#### options.wrap
-Type: `boolean`
-Default value: `true`
+#### options.wrapType
+Type: `String`
+Default value: `exports`
 
-add a wrapper function.
+- `exports`   add a exports wrapper
+- `amd`       add a amd wrapper
+- `null`      do not add any wrapper
 
 #### options.ext
 Type: `String`
@@ -219,6 +269,8 @@ separator used to join files.
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+- 0.3.0
+add amd support
 - 0.2.0
 exports by parse source code
 - 0.1.0
